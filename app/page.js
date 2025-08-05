@@ -8,7 +8,7 @@ export default function Home() {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
-
+  
   // Placeholder images - you can replace these with your actual images
   const carouselImages = [
     { id: 1, alt: "Tennis Court 1" },
