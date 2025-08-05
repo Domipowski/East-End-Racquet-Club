@@ -65,7 +65,7 @@ export default function Navbar({ session }) {
                 </>
               ) : (
                 <Link
-                  href="/signin"
+                  href="/auth"
                   className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                 >
                   Sign In
