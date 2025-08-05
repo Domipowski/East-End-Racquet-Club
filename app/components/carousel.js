@@ -59,93 +59,93 @@ export default function Carousel() {
   }, [images.length]);
  
   return (
-    <div className="mb-12 relative bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="relative w-full aspect-[16/9]">
-        {images.map((image, index) => (
-          <div
-            key={image.id}
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className="object-cover"
-            />
+    <div>
+        <div className="mb-4 relative rounded-xl shadow-lg overflow-hidden">
+            <div className="relative w-full aspect-[16/9]">
+                {images.map((image, index) => (
+                <div
+                    key={image.id}
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                        index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
+                >
+                    <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        priority={index===0} // First image is prioritized due to being LCP (Largest Contentful Paint) 
+                        className="object-cover"
+                    />
 
-            {/* Caption */}
-            <div className="absolute bottom-4 left-4 flex items-center gap-x-1 z-20 px-3 py-1 rounded-lg shadow bg-gradient-to-r from-green-500 to-blue-500 text-white">
-              <MapPinIcon className="w-5 h-5" />
-              <p className="text-sm font-bold">
-                {image.park}, {image.town}
-              </p>
+                    {/* Caption */}
+                    <div className="absolute bottom-4 left-4 flex items-center gap-x-1 z-20 px-3 py-1 rounded-lg shadow bg-gradient-to-r from-green-500 to-blue-500 text-white hidden sm:inline-flex text-sm font-bold">
+                        <MapPinIcon className="w-5 h-5"/>{image.park}, {image.town}
+                    </div>
+                </div>
+                ))}
+
+                {/* Arrows */}
+                <button
+                onClick={() => {
+                    setCurrentSlide((prev) =>
+                    prev === 0 ? images.length - 1 : prev - 1
+                    );
+                    startSlideInterval();
+                }}
+                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
+                aria-label="Previous Slide"
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-black"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                </button>
+
+                <button
+                onClick={() => {
+                    setCurrentSlide((prev) =>
+                    prev === images.length - 1 ? 0 : prev + 1
+                    );
+                    startSlideInterval();
+                }}
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
+                aria-label="Next Slide"
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-black"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+                </button>
             </div>
-          </div>
-        ))}
-
-        {/* Arrows */}
-        <button
-          onClick={() => {
-            setCurrentSlide((prev) =>
-              prev === 0 ? images.length - 1 : prev - 1
-            );
-            startSlideInterval();
-          }}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
-          aria-label="Previous Slide"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6 text-black"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        <button
-          onClick={() => {
-            setCurrentSlide((prev) =>
-              prev === images.length - 1 ? 0 : prev + 1
-            );
-            startSlideInterval();
-          }}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
-          aria-label="Next Slide"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6 text-black"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+        </div>
 
         {/* Indicators */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setCurrentSlide(index);
-                startSlideInterval();
-              }}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                index === currentSlide ? 'bg-green-500' : 'bg-white/60'
-              }`}
-            />
-          ))}
+        <div className="flex justify-center space-x-2 mb-8">
+            {images.map((_, index) => (
+                <button
+                key={index}
+                onClick={() => {
+                    setCurrentSlide(index);
+                    startSlideInterval();
+                }}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentSlide ? 'bg-green-500' : 'bg-gray-300'
+                }`}
+                />
+            ))}
         </div>
-      </div>
     </div>
   );
 }
