@@ -34,7 +34,7 @@ export default function Home() {
       <Navbar/>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="text-center max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -93,25 +93,25 @@ export default function Home() {
           </div>
 
           {/* Quick Stats */}
-          <div className="mt-16 grid grid-cols-4 gap-4 max-w-4xl mx-auto">
-            <div className="text-center p-4 bg-white rounded-lg shadow">
-              <div className="text-2xl font-bold text-green-600">19</div>
-              <div className="text-sm text-gray-600">Suffolk Towns</div>
-            </div>
-            
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             <div className="text-center p-4 bg-white rounded-lg shadow">
               <div className="text-2xl font-bold text-blue-600">Play</div>
               <div className="text-sm text-gray-600">Tennis & Pickleball</div>
             </div>
             
             <div className="text-center p-4 bg-white rounded-lg shadow">
-              <div className="text-2xl font-bold text-yellow-600">350+</div>
-              <div className="text-sm text-gray-600">Players Joined</div>
+              <div className="text-2xl font-bold text-purple-600">1-10</div>
+              <div className="text-sm text-gray-600">Skill Levels</div>
             </div>
 
             <div className="text-center p-4 bg-white rounded-lg shadow">
-              <div className="text-2xl font-bold text-purple-600">1-10</div>
-              <div className="text-sm text-gray-600">Skill Levels</div>
+              <div className="text-2xl font-bold text-green-600">19</div>
+              <div className="text-sm text-gray-600">Suffolk Towns</div>
+            </div>
+            
+            <div className="text-center p-4 bg-white rounded-lg shadow">
+              <div className="text-2xl font-bold text-yellow-600">350+</div>
+              <div className="text-sm text-gray-600">Players Joined</div>
             </div>
           </div>
         </div>
