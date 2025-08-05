@@ -65,7 +65,10 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <span className="text-2xl">🎾</span>
-              <Link href="/" className="text-2xl font-bold text-green-600 whitespace-nowrap">
+              <Link 
+                href="/" 
+                className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent font-poppins whitespace-nowrap"
+              >
                 East End Racquet Club
               </Link>
             </div>
@@ -92,14 +95,11 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <Link href="/signin" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
-                    Sign In
-                  </Link>
                   <Link
-                    href="/signup"
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    href="/signin"
+                    className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
                   >
-                    Sign Up
+                    Sign In
                   </Link>
                 </>
               )}
@@ -190,7 +190,7 @@ export default function Home() {
               <div className="space-y-4">
                 <Link 
                   href="/signup"
-                  className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg"
+                  className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg"
                 >
                   Get Started - Sign Up
                 </Link>
