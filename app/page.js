@@ -53,16 +53,16 @@ export default function Home() {
             {session ? (
               // Logged in state
               <div className="space-y-4">
-                <p className="text-lg text-gray-700 mb-6">
+                <p className="text-lg text-gray-700 mb-4">
                   Welcome back! Ready to find some players?
                 </p>
                 <Link 
                   href="/search"
-                  className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg"
+                  className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg"
                 >
                   🔍 Search for Players
                 </Link>
-                <div className="mt-4">
+                <div>
                   <button
                     onClick={() => supabase.auth.signOut()}
                     className="text-gray-600 hover:text-gray-800 underline"
