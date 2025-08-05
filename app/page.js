@@ -75,14 +75,14 @@ export default function Home() {
               // Not logged in state
               <div className="space-y-4">
                 <Link 
-                  href="/signup"
+                  href="/auth"
                   className="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors shadow-lg"
                 >
                   Get Started - Sign Up
                 </Link>
                 <div>
                   <Link 
-                    href="/signin"
+                    href="/auth"
                     className="text-green-600 hover:text-green-800 underline font-medium"
                   >
                     Already have an account? Sign In
@@ -105,7 +105,7 @@ export default function Home() {
             </div>
 
             <div className="text-center p-4 bg-white rounded-lg shadow">
-              <div className="text-2xl font-bold text-green-600">19</div>
+              <div className="text-2xl font-bold text-green-600">31</div>
               <div className="text-sm text-gray-600">Suffolk Towns</div>
             </div>
             
