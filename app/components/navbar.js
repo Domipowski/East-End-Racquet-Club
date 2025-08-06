@@ -4,9 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
 import { Bars3Icon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import { useUser } from '../user_provider';
 
-export default function Navbar({ session }) {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { session } = useUser();
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">

@@ -1,33 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
 import Navbar from './components/navbar'
 import Carousel from './components/carousel'
+import { useUser } from './user_provider';
 
 export default function Home() {
-  const [session, setSession] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { session, loading } = useUser();
 
-  useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setLoading(false)
-    })
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session)
-        setLoading(false)
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
+  if (loading) return null; // Or a loading spinner
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
