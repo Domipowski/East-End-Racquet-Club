@@ -60,7 +60,7 @@ export default function Navbar() {
                   </Link>
                   <button
                     onClick={() => supabase.auth.signOut()}
-                    className="text-gray-700 hover:text-green-600 font-medium transition-colors"
+                    className="text-gray-700 hover:text-green-600 font-medium transition-colors cursor-pointer"
                   >
                     Sign Out
                   </button>
