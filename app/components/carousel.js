@@ -92,7 +92,7 @@ export default function Carousel() {
                     );
                     startSlideInterval();
                 }}
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
+                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20 cursor-pointer"
                 aria-label="Previous Slide"
                 >
                 <svg
@@ -114,7 +114,7 @@ export default function Carousel() {
                     );
                     startSlideInterval();
                 }}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20"
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20 cursor-pointer"
                 aria-label="Next Slide"
                 >
                 <svg
