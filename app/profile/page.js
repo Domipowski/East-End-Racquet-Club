@@ -157,11 +157,6 @@ export default function Profile() {
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">Your Profile</h1>
-            <p className="text-lg text-gray-600">Manage your tennis partner profile</p>
-          </div>
 
           {/* Profile Card */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
