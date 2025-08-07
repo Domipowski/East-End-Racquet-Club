@@ -45,10 +45,10 @@ export default function Navbar() {
             className={`
               w-full sm:w-auto
               overflow-hidden transition-all duration-300 ease-in-out
-              ${menuOpen ? 'max-h-20 mt-4' : 'max-h-0 sm:max-h-full sm:mt-0'}
+              ${menuOpen ? 'max-h-40 mt-4' : 'max-h-0 sm:max-h-full sm:mt-0'}
             `}
           >
-            <div className="flex justify-center  items-center gap-x-4 sm:gap-x-6">
+            <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 sm:gap-x-6">
               <Link href="/" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                 Home
               </Link>
