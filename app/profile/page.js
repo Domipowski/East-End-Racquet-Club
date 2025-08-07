@@ -464,7 +464,10 @@ export default function Profile() {
             </button>
 
             <button
-              onClick={() => supabase.auth.signOut()}
+              onClick={() => {
+                supabase.auth.signOut(); 
+                router.push('/'); 
+            }}
               className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow cursor-pointer text-center sm:col-span-2 lg:col-span-1"
             >
               <div className="text-2xl mb-2">🚪</div>
