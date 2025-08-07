@@ -37,7 +37,7 @@ export default function Profile() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         if (!session) {
-          router.push('/signin')
+          router.push('/auth')
           return
         }
 
