@@ -164,9 +164,9 @@ export default function Profile() {
             <div className="bg-gradient-to-r from-green-500 to-blue-500 px-6 py-8 sm:px-8">
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 {/* Avatar */}
-                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-2xl font-bold text-green-600 shadow-lg">
+                {/* <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-2xl font-bold text-green-600 shadow-lg">
                   {getInitials(profile.name)}
-                </div>
+                </div> */}
                 
                 {/* Basic Info */}
                 <div className="text-center sm:text-left text-white flex-1">
@@ -209,15 +209,15 @@ export default function Profile() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                           <span className="text-gray-600">Email</span>
-                          <span className="font-medium">{profile.email}</span>
+                          <span className="font-medium text-gray-700">{profile.email}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                           <span className="text-gray-600">Name</span>
-                          <span className="font-medium">{profile.name || 'Not set'}</span>
+                          <span className="font-medium text-gray-700">{profile.name || 'Not set'}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                           <span className="text-gray-600">Location</span>
-                          <span className="font-medium">{profile.town}</span>
+                          <span className="font-medium text-gray-700">{profile.town}</span>
                         </div>
                       </div>
                     </div>
@@ -227,7 +227,7 @@ export default function Profile() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                           <span className="text-gray-600">Member Since</span>
-                          <span className="font-medium">{formatDate(profile.created_at)}</span>
+                          <span className="font-medium text-gray-700">{formatDate(profile.created_at)}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                           <span className="text-gray-600">Looking for Partners</span>
@@ -269,7 +269,7 @@ export default function Profile() {
                         {/* Sport */}
                         <div className="bg-gray-50 rounded-lg p-4">
                           <span className="text-gray-600 block mb-2">Preferred Sport</span>
-                          <span className="text-xl font-semibold">{getSportDisplay(profile.sport)}</span>
+                          <span className="text-xl font-semibold text-gray-700">{getSportDisplay(profile.sport)}</span>
                         </div>
                       </div>
                     </div>
@@ -288,7 +288,7 @@ export default function Profile() {
                         type="text"
                         value={editForm.name || ''}
                         onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700"
                         placeholder="Your full name"
                       />
                     </div>
@@ -299,7 +299,7 @@ export default function Profile() {
                       <select
                         value={editForm.town || ''}
                         onChange={(e) => setEditForm({ ...editForm, town: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer text-gray-700"
                       >
                         <option value="">Select town...</option>
                         {suffolkTowns.map((town) => (
@@ -320,10 +320,17 @@ export default function Profile() {
                             className={`p-2 rounded-lg border-2 transition-all cursor-pointer ${
                               editForm.skill === level
                                 ? 'border-green-500 bg-green-50 text-green-700'
-                                : 'border-gray-200 hover:border-gray-300'
+                                : 'border-gray-300 hover:border-gray-300'
                             }`}
                           >
-                            <div className="text-lg font-bold">{level}</div>
+                            <div className={`text-lg font-bold ${
+                              editForm.skill === level
+                                ? 'text-green-700'
+                                : 'text-gray-500'
+                              }`}
+                            >
+                              {level}
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -344,8 +351,8 @@ export default function Profile() {
                             onClick={() => setEditForm({ ...editForm, sport: option.value })}
                             className={`w-full p-3 rounded-lg border-2 transition-all cursor-pointer text-left ${
                               editForm.sport === option.value
-                                ? 'border-green-500 bg-green-50'
-                                : 'border-gray-200 hover:border-gray-300'
+                                ? 'border-green-500 bg-green-50 text-green-700'
+                                : 'border-gray-200 hover:border-gray-300 text-gray-700'
                             }`}
                           >
                             {option.label}
@@ -356,50 +363,80 @@ export default function Profile() {
 
                     {/* Active Status */}
                     <div className="md:col-span-2">
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={editForm.active || false}
-                          onChange={(e) => setEditForm({ ...editForm, active: e.target.checked })}
-                          className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
-                        />
-                        <span className="text-sm font-medium text-gray-700">
-                          I'm actively looking for playing partners
-                        </span>
-                      </label>
+                        <label className="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer group hover:bg-gray-100 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <div className="text-xl">
+                                    🎾
+                                </div>
+                                <div>
+                                    <span className="text-sm font-medium text-gray-700 block">
+                                        I'm actively looking for playing partners
+                                    </span>
+                                    <span className="text-xs text-gray-500">
+                                        Your profile will be visible to other players
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            {/* Custom Toggle Switch */}
+                            <div className="relative">
+                                <input
+                                    type="checkbox"
+                                    checked={editForm.active || false}
+                                    onChange={(e) => setEditForm({ ...editForm, active: e.target.checked })}
+                                    className="sr-only"
+                                />
+                                <div className={`w-12 h-6 rounded-full transition-all duration-200 relative ${
+                                    editForm.active 
+                                    ? 'bg-gradient-to-r from-green-500 to-blue-500' 
+                                    : 'bg-gray-300'
+                                }`}>
+                                    <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 flex items-center justify-center ${
+                                    editForm.active ? 'translate-x-6' : 'translate-x-0.5'
+                                    }`}>
+                                    {editForm.active && (
+                                        <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
+                                    )}
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                     </div>
-                  </div>
-
-                  {/* Save/Cancel Buttons */}
-                  <div className="flex gap-4 pt-4 border-t">
-                    <button
-                      onClick={handleSave}
-                      disabled={saving}
-                      className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
-                    >
-                      {saving ? 'Saving...' : 'Save Changes'}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setEditing(false)
-                        setEditForm(profile)
-                        setMessage('')
-                      }}
-                      className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-colors cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                  </div>
                 </div>
-              )}
 
+                {/* Save/Cancel Buttons */}
+                <div className="flex gap-4 pt-4 border-t">
+                <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-600 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+                >
+                    {saving ? 'Saving...' : 'Save Changes'}
+                </button>
+                <button
+                    onClick={() => {
+                    setEditing(false)
+                    setEditForm(profile)
+                    setMessage('')
+                    }}
+                    className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-colors cursor-pointer"
+                >
+                    Cancel
+                </button>
+                </div>
+            </div>
+
+            )}
               {/* Message */}
               {message && (
                 <div className={`mt-4 p-3 rounded-lg text-sm ${
-                  message.includes('successfully') 
-                    ? 'bg-green-50 text-green-700 border border-green-200' 
-                    : 'bg-red-50 text-red-700 border border-red-200'
-                }`}>
+                    message.includes('successfully') 
+                        ? 'bg-green-50 text-green-700 border border-green-200' 
+                        : 'bg-red-50 text-red-700 border border-red-200'
+                    }`}
+                >
                   {message}
                 </div>
               )}
