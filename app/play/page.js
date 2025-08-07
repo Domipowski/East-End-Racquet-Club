@@ -6,7 +6,6 @@ import { supabase } from '../../lib/supabase'
 import Navbar from '../components/navbar'
 import { 
   FunnelIcon, 
-  XMarkIcon, 
   MapPinIcon, 
   TrophyIcon,
   Squares2X2Icon,
@@ -226,19 +225,10 @@ const UserCard = ({ user, viewMode }) => {
     }
   }
 
-  const getInitials = (name) => {
-    if (!name) return 'U'
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-  }
-
   if (viewMode === 'list') {
     return (
       <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 border border-gray-200">
         <div className="flex items-center gap-4">
-          {/* Avatar */}
-          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-            {getInitials(user.name)}
-          </div>
           
           {/* Info */}
           <div className="flex-1 min-w-0">
@@ -474,14 +464,21 @@ export default function Dashboard() {
             </div>
 
             {/* View Toggle */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span className="text-sm text-gray-600 hidden sm:block">View:</span>
-              <div className="flex bg-gray-100 rounded-lg p-1">
+              <div className="relative flex bg-gray-100 rounded-lg p-1">
+                {/* Animated Background */}
+                <div 
+                  className={`absolute top-1 bottom-1 w-1/2 bg-gradient-to-r from-green-500 to-blue-500 rounded-md shadow-sm transition-transform duration-300 ease-in-out ${
+                    viewMode === 'list' ? 'translate-x-full' : 'translate-x-0'
+                  }`}
+                ></div>
+                
                 <button
                   onClick={() => setViewMode('card')}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`relative z-10 flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-300 cursor-pointer ${
                     viewMode === 'card' 
-                      ? 'bg-white text-gray-800 shadow-sm' 
+                      ? 'text-white' 
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
@@ -490,9 +487,9 @@ export default function Dashboard() {
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`relative z-10 flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-300 cursor-pointer ${
                     viewMode === 'list' 
-                      ? 'bg-white text-gray-800 shadow-sm' 
+                      ? 'text-white' 
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
