@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
 import { Bars3Icon, ChevronUpIcon } from '@heroicons/react/24/solid';
-import { useUser } from '../user_provider';
+import { useUser } from './user_provider';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

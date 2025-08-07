@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase'
 
 import Navbar from './components/navbar'
 import Carousel from './components/carousel'
-import { useUser } from './user_provider';
+import { useUser } from './components/user_provider';
 
 export default function Home() {
   const { session, loading } = useUser();
