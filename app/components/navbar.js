@@ -52,14 +52,20 @@ export default function Navbar() {
               <Link href="/" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                 Home
               </Link>
-              <Link href="/search" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+              
+              <Link href={session ? "/search" : "/auth"} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                 Play
               </Link>
               {session ? (
                 <>
+                  <Link href="/messages" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                    Messages
+                  </Link>
+
                   <Link href="/profile" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                     Profile
                   </Link>
+                  
                   <button
                     onClick={() => { 
                       supabase.auth.signOut(); 
