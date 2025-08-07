@@ -88,27 +88,30 @@ const FilterPanel = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Search */}
           <div className="lg:col-span-1">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
               Search Players
             </label>
             <div className="relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-600" />
               <input
+                id="name"
                 type="text"
                 value={filters.search}
                 onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                 placeholder="Search by name..."
                 className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700"
+                autoComplete='off'
               />
             </div>
           </div>
 
           {/* Town Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
               Location
             </label>
             <select
+              id="location"
               value={filters.town}
               onChange={(e) => setFilters(prev => ({ ...prev, town: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer text-gray-700"
@@ -125,13 +128,14 @@ const FilterPanel = ({
 
           {/* Skill Range */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="skill" className="block text-sm font-medium text-gray-700 mb-2">
               Skill Level ({filters.skillRange[0]} - {filters.skillRange[1]})
             </label>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 font-medium min-w-[30px]">Min</span>
                 <input
+                  id="skill"
                   type="range"
                   min="1"
                   max="10"
@@ -162,7 +166,7 @@ const FilterPanel = ({
 
           {/* Sport Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor={`sport-tennis`} className="block text-sm font-medium text-gray-700 mb-2">
               Sports
             </label>
             <div className="space-y-2">
@@ -177,6 +181,7 @@ const FilterPanel = ({
                   {/* Custom Toggle Switch */}
                   <div className="relative">
                     <input
+                      id={`sport-${sport.value}`} 
                       type="checkbox"
                       checked={filters.sports.includes(sport.value)}
                       onChange={() => handleSportToggle(sport.value)}
