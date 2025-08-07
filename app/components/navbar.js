@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; 
 import { supabase } from '../../lib/supabase';
 import { Bars3Icon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { useUser } from './user_provider';
@@ -9,6 +10,7 @@ import { useUser } from './user_provider';
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { session } = useUser();
+  const router = useRouter();
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
@@ -59,7 +61,10 @@ export default function Navbar() {
                     Profile
                   </Link>
                   <button
-                    onClick={() => supabase.auth.signOut()}
+                    onClick={() => { 
+                      supabase.auth.signOut(); 
+                      router.push('/'); 
+                    }}
                     className="text-gray-700 hover:text-green-600 font-medium transition-colors cursor-pointer"
                   >
                     Sign Out
