@@ -14,6 +14,8 @@ import {
   AdjustmentsHorizontalIcon
 } from '@heroicons/react/24/outline'
 
+// FIXME: Check and test cards and lists for users once another is created 
+
 // Filter Panel Component
 const FilterPanel = ({ 
   filters, 
