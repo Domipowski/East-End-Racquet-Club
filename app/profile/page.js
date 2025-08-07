@@ -283,23 +283,27 @@ export default function Profile() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Name */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
                       <input
                         type="text"
+                        id="name"
                         value={editForm.name || ''}
                         onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-700"
                         placeholder="Your full name"
+                        autoComplete="on"
                       />
                     </div>
 
                     {/* Town */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Town</label>
+                      <label htmlFor="town" className="block text-sm font-medium text-gray-700 mb-2">Town</label>
                       <select
+                        id="town"
                         value={editForm.town || ''}
                         onChange={(e) => setEditForm({ ...editForm, town: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer text-gray-700"
+                        autoComplete="off"
                       >
                         <option value="">Select town...</option>
                         {suffolkTowns.map((town) => (
@@ -310,10 +314,11 @@ export default function Profile() {
 
                     {/* Skill Level */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Skill Level (1-10)</label>
+                      <label htmlFor="skill" className="block text-sm font-medium text-gray-700 mb-2">Skill Level (1-10)</label>
                       <div className="grid grid-cols-5 gap-2">
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => (
                           <button
+                            id="skill"
                             key={level}
                             type="button"
                             onClick={() => setEditForm({ ...editForm, skill: level })}
@@ -338,7 +343,7 @@ export default function Profile() {
 
                     {/* Sport */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Sport</label>
+                      <label htmlFor="Sport" className="block text-sm font-medium text-gray-700 mb-2">Sport</label>
                       <div className="space-y-2">
                         {[
                           { value: 'tennis', label: '🎾 Tennis' },
@@ -346,6 +351,7 @@ export default function Profile() {
                           { value: 'both', label: '🎾🏓 Both' }
                         ].map((option) => (
                           <button
+                            id="Sport"
                             key={option.value}
                             type="button"
                             onClick={() => setEditForm({ ...editForm, sport: option.value })}
@@ -381,10 +387,12 @@ export default function Profile() {
                             {/* Custom Toggle Switch */}
                             <div className="relative">
                                 <input
+                                    name="active"
                                     type="checkbox"
                                     checked={editForm.active || false}
                                     onChange={(e) => setEditForm({ ...editForm, active: e.target.checked })}
                                     className="sr-only"
+                                    autoComplete="off"
                                 />
                                 <div className={`w-12 h-6 rounded-full transition-all duration-200 relative ${
                                     editForm.active 
