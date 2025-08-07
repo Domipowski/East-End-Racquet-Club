@@ -53,7 +53,7 @@ export default function Navbar() {
                 Home
               </Link>
               
-              <Link href={session ? "/search" : "/auth"} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+              <Link href={session ? "/play" : "/auth"} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                 Play
               </Link>
               {session ? (
