@@ -454,7 +454,7 @@ export default function Profile() {
           {/* Quick Actions */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <button
-              onClick={() => router.push('/search')}
+              onClick={() => router.push('/play')}
               className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow cursor-pointer text-center"
             >
               <div className="text-2xl mb-2">🔍</div>
