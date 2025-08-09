@@ -76,7 +76,7 @@ export default function Home() {
           </div>
 
           {/* Quick Stats */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             <div className="text-center p-4 bg-white rounded-lg shadow">
               <div className="text-2xl font-bold text-blue-600">Play</div>
               <div className="text-sm text-gray-600">Tennis & Pickleball</div>
@@ -92,10 +92,11 @@ export default function Home() {
               <div className="text-sm text-gray-600">Suffolk Towns</div>
             </div>
             
-            <div className="text-center p-4 bg-white rounded-lg shadow">
+            {/* TODO: Uncomment once many players join */}
+            {/* <div className="text-center p-4 bg-white rounded-lg shadow">
               <div className="text-2xl font-bold text-yellow-600">350+</div>
               <div className="text-sm text-gray-600">Players Joined</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
