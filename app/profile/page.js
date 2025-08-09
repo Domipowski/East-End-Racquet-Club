@@ -376,7 +376,7 @@ export default function Profile() {
                                 </div>
                                 <div>
                                     <span className="text-sm font-medium text-gray-700 block">
-                                        I'm actively looking for playing partners
+                                        {"I'm"} actively looking for playing partners
                                     </span>
                                     <span className="text-xs text-gray-500">
                                         Your profile will be visible to other players

@@ -172,7 +172,7 @@ export default function ChatPage() {
     if (otherUserId) {
       fetchData()
     }
-  }, [otherUserId])
+  }, [otherUserId, router])
 
   useEffect(() => {
     if (!currentUserId || !otherUserId) return;

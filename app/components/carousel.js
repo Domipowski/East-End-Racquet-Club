@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { MapPinIcon } from '@heroicons/react/24/solid';
 
@@ -46,17 +46,20 @@ export default function Carousel() {
     }
   ];  
 
-  const startSlideInterval = () => {
-    clearInterval(slideInterval.current);
+  const startSlideInterval = useCallback(() => {
+    // reset any existing timer
+    if (slideInterval.current) clearInterval(slideInterval.current);
     slideInterval.current = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % images.length);
+      setCurrentSlide(prev => (prev + 1) % images.length);
     }, 4000);
-  };
+  }, [images.length]);
 
   useEffect(() => {
     startSlideInterval();
-    return () => clearInterval(slideInterval.current);
-  }, [images.length]);
+    return () => {
+      if (slideInterval.current) clearInterval(slideInterval.current);
+    };
+  }, [startSlideInterval]);
  
   return (
     <div>
@@ -108,25 +111,25 @@ export default function Carousel() {
                 </button>
 
                 <button
-                onClick={() => {
-                    setCurrentSlide((prev) =>
-                    prev === images.length - 1 ? 0 : prev + 1
-                    );
-                    startSlideInterval();
-                }}
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20 cursor-pointer"
-                aria-label="Next Slide"
-                >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6 text-black"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+                  onClick={() => {
+                      setCurrentSlide((prev) =>
+                      prev === images.length - 1 ? 0 : prev + 1
+                      );
+                      startSlideInterval();
+                  }}
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/60 hover:bg-white p-2 rounded-full shadow z-20 cursor-pointer"
+                  aria-label="Next Slide"
+                  >
+                  <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-6 h-6 text-black"
+                  >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
                 </button>
             </div>
         </div>

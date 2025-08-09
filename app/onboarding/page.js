@@ -142,7 +142,7 @@ export default function Onboarding() {
               Welcome to the Club!
             </h1>
             <p className="text-lg text-gray-600">
-              Let's set up your profile to find the perfect playing partners
+              {"Let's"} set up your profile to find the perfect playing partners
             </p>
           </div>
 
@@ -167,7 +167,7 @@ export default function Onboarding() {
               {currentStep === 1 && (
                 <div className="space-y-4">
                   <div className="text-center mb-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">What's your name?</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">{"What's"} your name?</h2>
                     <p className="text-gray-600">This is how other players will see you</p>
                   </div>
                   
@@ -189,7 +189,7 @@ export default function Onboarding() {
               {currentStep === 2 && (
                 <div className="space-y-4">
                   <div className="text-center mb-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">What's your skill level?</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">{"What's"} your skill level?</h2>
                     <p className="text-gray-600">Rate yourself from 1 (beginner) to 10 (expert)</p>
                   </div>
                   

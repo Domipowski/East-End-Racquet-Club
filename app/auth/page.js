@@ -357,7 +357,7 @@ export default function SignIn() {
 
                 {/* Resend Code */}
                 <div className="mt-6 text-center">
-                  <p className="text-sm text-gray-600 mb-2">Didn't receive the code?</p>
+                  <p className="text-sm text-gray-600 mb-2">{"Didn't"} receive the code?</p>
                   <button
                     onClick={handleResendCode}
                     disabled={resendTimer > 0 || loading}
