@@ -71,10 +71,6 @@ const UserInfoHeader = ({ user, onBack }) => {
           <ArrowLeftIcon className="w-5 h-5 text-gray-600" />
         </button>
         
-        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-          {user?.name?.charAt(0)?.toUpperCase() || '?'}
-        </div>
-        
         <div className="flex-1">
           <h2 className="font-semibold text-gray-800">{user?.name || 'Unknown User'}</h2>
           <div className="flex items-center gap-3 text-sm text-gray-500">

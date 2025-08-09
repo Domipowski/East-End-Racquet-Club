@@ -42,9 +42,6 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
       <div className="flex items-center gap-4">
         {/* Avatar */}
         <div className="relative">
-          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {otherUser?.name?.charAt(0)?.toUpperCase() || '?'}
-          </div>
           {isUnread && (
             <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
               <ExclamationCircleIcon className="w-3 h-3 text-white" />
@@ -58,16 +55,15 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
             <h3 className={`font-semibold truncate ${isUnread ? 'text-gray-900' : 'text-gray-700'}`}>
               {otherUser?.name || 'Unknown User'}
             </h3>
-            <span className="text-xs text-gray-500 flex items-center gap-1">
-              <ClockIcon className="w-3 h-3" />
-              {formatTime(conversation.created_at)}
-            </span>
           </div>
           
-          <div className="flex items-center justify-between">
-            <p className={`text-sm truncate ${isUnread ? 'text-gray-700 font-medium' : 'text-gray-500'}`}>
+          <div className="flex items-center">
+            <span className={`text-sm truncate ${isUnread ? 'text-gray-700 font-medium' : 'text-gray-500'}`}>
+              <ClockIcon className="w-3 h-3 inline-block me-1" />
+              {formatTime(conversation.created_at)}
+              {': '}
               {lastMessage}
-            </p>
+            </span>
             
             {!isUnread && conversation.from_user_id === currentUserId && (
               <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 ml-2" />
