@@ -50,11 +50,15 @@ export default function SignIn() {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
+        type: 'email', 
         options: {
-          emailRedirectTo: `${window.location.origin}/` // or '/auth/callback' if you prefer
+          shouldCreateUser: true
         }
       });
+
       if (error) throw error;
+
+      setShowVerification(true); // switch to code entry
 
       setMessage('Magic link sent! Check your email.');
     } catch (error) {
