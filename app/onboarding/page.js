@@ -177,7 +177,7 @@ export default function Onboarding() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500 text-lg"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500 text-lg text-gray-700"
                       placeholder="Enter your full name"
                       autoFocus
                     />
@@ -206,12 +206,10 @@ export default function Onboarding() {
                         }`}
                       >
                         <div className="text-xl font-bold">{level}</div>
-                        <div className="text-xs">
-                          {level <= 2 ? 'Beginner' : level <= 4 ? 'Novice' : level <= 6 ? 'Intermediate' : level <= 8 ? 'Advanced' : 'Expert'}
-                        </div>
                       </button>
                     ))}
                   </div>
+
                 </div>
               )}
 
@@ -260,7 +258,7 @@ export default function Onboarding() {
                       value={town}
                       onChange={(e) => setTown(e.target.value)}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg cursor-pointer text=gray-700"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg cursor-pointer text-gray-700"
                     >
                       <option value="">Select your town...</option>
                       {suffolkTowns.map((townName) => (
@@ -323,16 +321,6 @@ export default function Onboarding() {
                 {message}
               </div>
             )}
-          </div>
-
-          {/* Skip Option */}
-          <div className="text-center mt-6">
-            <button
-              onClick={() => router.push('/')}
-              className="text-gray-500 hover:text-gray-700 underline cursor-pointer text-sm"
-            >
-              Skip for now (you can complete this later)
-            </button>
           </div>
         </div>
       </div>

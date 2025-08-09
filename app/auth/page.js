@@ -17,16 +17,22 @@ export default function SignIn() {
   const [resendTimer, setResendTimer] = useState(0)
   const router = useRouter()
 
-  // Redirect if already logged in
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        router.push('/')
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user?.id) {
+        // (optional) ensure profile exists, then:
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('onboarding_completed')
+          .eq('id', session.user.id)
+          .maybeSingle();
+
+        const needs = !profile || !profile.onboarding_completed;
+        router.replace(needs ? '/onboarding' : '/');
       }
-    }
-    checkUser()
-  }, [router])
+    });
+    return () => subscription.unsubscribe();
+  }, [router]);
 
   // Resend timer
   useEffect(() => {
@@ -134,28 +140,18 @@ export default function SignIn() {
   }
 
   const handleGoogleAuth = async () => {
-    setLoading(true)
-    setMessage('')
-    
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`
-        }
-      })
-      if (error) throw error
-    } catch (error) {
-      setMessage(error.message)
-      setLoading(false)
-    }
-  }
+    setLoading(true);
+    setMessage('');
 
-  const goBack = () => {
-    setShowVerification(false)
-    setVerificationCode('')
-    setMessage('')
-  }
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+      if (error) throw error;
+      
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">

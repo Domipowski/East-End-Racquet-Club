@@ -249,14 +249,14 @@ const UserCard = ({ user, viewMode }) => {
                   </div>
                   <div className="flex items-center gap-1">
                     <TrophyIcon className="w-4 h-4" />
-                    <span>Level {user.skill}</span>
+                    <span>Skill Level: {user.skill}</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm font-medium">{getSportDisplay(user.sport)}</span>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors">
-                  Connect
+                <span className="text-sm font-medium text-gray-700">{getSportDisplay(user.sport)}</span>
+                <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer">
+                  Message
                 </button>
               </div>
             </div>
@@ -272,12 +272,9 @@ const UserCard = ({ user, viewMode }) => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-500 to-blue-500 px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-green-600 font-bold">
-            {getInitials(user.name)}
-          </div>
           <div className="text-white flex-1 min-w-0">
-            <h3 className="font-bold text-lg truncate">{user.name}</h3>
-            <div className="flex items-center gap-1 text-green-100">
+            <h3 className="font-bold text-lg truncate text-white">{user.name}</h3>
+            <div className="flex items-center gap-1 text-white">
               <MapPinIcon className="w-4 h-4" />
               <span className="text-sm truncate">{user.town}</span>
             </div>
@@ -304,12 +301,12 @@ const UserCard = ({ user, viewMode }) => {
 
         {/* Sport */}
         <div className="text-center">
-          <span className="text-lg font-semibold">{getSportDisplay(user.sport)}</span>
+          <span className="text-lg font-semibold text-gray-700">{getSportDisplay(user.sport)}</span>
         </div>
 
         {/* Connect Button */}
-        <button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-2 rounded-lg font-semibold transition-colors">
-          Connect
+        <button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-2 rounded-lg font-semibold transition-colors cursor-pointer">
+          Message
         </button>
       </div>
     </div>
