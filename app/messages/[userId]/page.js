@@ -66,9 +66,18 @@ const UserInfoHeader = ({ user, onBack }) => {
       <div className="flex items-center gap-3">
         <button
           onClick={onBack}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
         >
-          <ArrowLeftIcon className="w-5 h-5 text-gray-600" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6 text-black"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
         </button>
         
         <div className="flex-1">
@@ -80,7 +89,7 @@ const UserInfoHeader = ({ user, onBack }) => {
             </div>
             <div className="flex items-center gap-1">
               <TrophyIcon className="w-3 h-3" />
-              <span>Level {user?.skill}</span>
+              <span>Skill Level: {user?.skill}</span>
             </div>
             <span>{getSportDisplay(user?.sport)}</span>
           </div>

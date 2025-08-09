@@ -10,7 +10,9 @@ import {
   UserIcon,
   ClockIcon,
   CheckIcon,
-  ExclamationCircleIcon
+  ExclamationCircleIcon,
+  MapPinIcon,
+  TrophyIcon
 } from '@heroicons/react/24/outline'
 import { ChatBubbleLeftRightIcon as ChatBubbleLeftRightSolid } from '@heroicons/react/24/solid'
 
@@ -72,8 +74,14 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
 
           {/* User info */}
           <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
-            <span>📍 {otherUser?.town}</span>
-            <span>🏆 Level {otherUser?.skill}</span>
+            <span>
+                <MapPinIcon className="w-3 h-3 inline-block me-1 mb-1" />
+                {otherUser?.town}
+            </span>
+            <span>
+                <TrophyIcon className="w-3 h-3 inline-block me-1 mb-1" />
+                Skill Level: {otherUser?.skill}
+            </span>
             <span>{otherUser?.sport === 'tennis' ? '🎾' : otherUser?.sport === 'pickleball' ? '🏓' : '🎾🏓'} {otherUser?.sport}</span>
           </div>
         </div>
@@ -199,8 +207,18 @@ export default function MessagesPage() {
         <div className="max-w-4xl mx-auto">
           {/* Page Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
-              <ChatBubbleLeftRightSolid className="w-10 h-10 text-green-400" />
+            <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-1">
+              <ChatBubbleLeftRightSolid className="w-10 h-10" style={{fill: "url(#green-blue-gradient)"}} />
+
+              <svg width="0" height="0">
+                <defs>
+                    <linearGradient id="green-blue-gradient">
+                        <stop offset="0%" stopColor="#22c55e" /> {/* Tailwind green-500 */}
+                        <stop offset="100%" stopColor="#3b82f6" /> {/* Tailwind blue-500 */}
+                    </linearGradient>
+                </defs>
+                </svg>
+
               Messages
             </h1>
             <p className="text-lg text-gray-600">Stay connected with your playing partners</p>
