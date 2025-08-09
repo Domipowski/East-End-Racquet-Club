@@ -43,54 +43,26 @@ export default function SignIn() {
   }, [resendTimer])
 
   const handleEmailAuth = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage('')
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
 
     try {
-      if (isSignUp) {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/onboarding`
-          }
-        })
-        
-        if (error) throw error
-        
-        // Show verification screen
-        setShowVerification(true)
-        setResendTimer(60) // 60 second cooldown
-        setMessage('Please check your email for the 6-digit verification code')
-        
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        
-        if (error) throw error
-        
-        // Check if user needs onboarding
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('onboarding_completed')
-          .eq('id', data.user.id)
-          .single()
-        
-        if (profile && !profile.onboarding_completed) {
-          router.push('/onboarding')
-        } else {
-          router.push('/')
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/` // or '/auth/callback' if you prefer
         }
-      }
+      });
+      if (error) throw error;
+
+      setMessage('Magic link sent! Check your email.');
     } catch (error) {
-      setMessage(error.message)
+      setMessage(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleVerification = async (e) => {
     e.preventDefault()
@@ -124,7 +96,7 @@ export default function SignIn() {
 
     try {
       const { error } = await supabase.auth.resend({
-        type: 'signup',
+        type: 'magiclink',
         email: email,
       })
 
@@ -335,7 +307,6 @@ export default function SignIn() {
                       type="text"
                       value={verificationCode}
                       onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      required
                       maxLength={6}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500 text-center text-2xl font-mono tracking-widest"
                       placeholder="000000"
