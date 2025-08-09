@@ -22,13 +22,6 @@ const MessageBubble = ({ message, isCurrentUser, showAvatar = false, otherUser }
 
   return (
     <div className={`flex items-end gap-2 mb-4 ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
-      {!isCurrentUser && showAvatar && (
-        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-          {otherUser?.name?.charAt(0)?.toUpperCase() || '?'}
-        </div>
-      )}
-      {!isCurrentUser && !showAvatar && <div className="w-8" />}
-      
       <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
         isCurrentUser 
           ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white' 

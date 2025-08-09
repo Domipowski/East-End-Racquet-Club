@@ -85,87 +85,95 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
 export default function MessagesPage() {
   const [conversations, setConversations] = useState([])
   const [currentUser, setCurrentUser] = useState(null)
+  const [userId, setUserId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const router = useRouter()
 
   useEffect(() => {
-    let subscription
-
-    const fetchData = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
+    let mounted = true;
+    (async () => {
+        const { data: { session } } = await supabase.auth.getSession();
         if (!session) {
-          setLoading(false)
-          router.replace('/auth')
-          return
+        if (mounted) setLoading(false);
+        router.replace('/auth');
+        return;
         }
+        if (mounted) setUserId(session.user.id);
+    })();
+    return () => { mounted = false; };
+  }, [router]);
 
-        // Get current user profile
-        const { data: currentUserData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
+  const fetchConversations = async (uid) => {
+    // current user profile
+    const { data: me } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', uid)
+        .single();
+    setCurrentUser(me);
 
-        setCurrentUser(currentUserData)
+    // latest messages for this user (cap to 100)
+    const { data: messagesData, error } = await supabase
+        .from('messages')
+        .select(`
+        id, from_user_id, to_user_id, content, read, created_at,
+        from_user:profiles!messages_from_user_id_fkey(id,name,town,skill,sport),
+        to_user:profiles!messages_to_user_id_fkey(id,name,town,skill,sport)
+        `)
+        .or(`from_user_id.eq.${uid},to_user_id.eq.${uid}`)
+        .order('created_at', { ascending: false })
+        .limit(100);
 
-        // Fetch conversations
-        const { data: messagesData, error } = await supabase
-          .from('messages')
-          .select(`
-            id, from_user_id, to_user_id, content, read, created_at,
-            from_user:profiles!messages_from_user_id_fkey(id,name,town,skill,sport),
-            to_user:profiles!messages_to_user_id_fkey(id,name,town,skill,sport)
-          `)
-          .or(`from_user_id.eq.${session.user.id},to_user_id.eq.${session.user.id}`)
-          .order('created_at', { ascending: false })
-          .limit(100)
+    if (error) throw error;
 
-        if (error) throw error
-
-        // Group by conversation
-        const conversationsMap = new Map()
-        messagesData?.forEach(message => {
-          const otherUserId = message.from_user_id === session.user.id
-            ? message.to_user_id
-            : message.from_user_id
-          const key = [session.user.id, otherUserId].sort().join('-')
-          if (!conversationsMap.has(key)) {
-            conversationsMap.set(key, message)
-          }
-        })
-
-        setConversations(Array.from(conversationsMap.values()))
-
-        // Subscribe to new messages AFTER session is available
-        subscription = supabase
-          .channel(`messages-${session.user.id}`)
-          .on(
-            'postgres_changes',
-            {
-              event: 'INSERT',
-              schema: 'public',
-              table: 'messages',
-              filter: `or(from_user_id=eq.${session.user.id},to_user_id=eq.${session.user.id})`
-            },
-            () => fetchData()
-          )
-          .subscribe()
-
-      } catch (error) {
-        console.error('Error fetching conversations:', error)
-      } finally {
-        setLoading(false)
-      }
+    // reduce to latest per conversation
+    const map = new Map();
+    for (const m of messagesData ?? []) {
+        const other = m.from_user_id === uid ? m.to_user_id : m.from_user_id;
+        const key = [uid, other].sort().join('-');
+        if (!map.has(key)) map.set(key, m);
     }
+    setConversations([...map.values()]);
+  };
 
-    fetchData()
+  useEffect(() => {
+    if (!userId) return;
+    let mounted = true;
+    (async () => {
+        try {
+        await fetchConversations(userId);
+        } catch (e) {
+        console.error('Error fetching conversations:', e);
+        } finally {
+        if (mounted) setLoading(false);
+        }
+    })();
+    return () => { mounted = false; };
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    // two listeners on one channel (OR across columns is flaky)
+    const channel = supabase
+        .channel(`messages-${userId}`)
+        .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `from_user_id=eq.${userId}` },
+        () => fetchConversations(userId)
+        )
+        .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user_id=eq.${userId}` },
+        () => fetchConversations(userId)
+        )
+        .subscribe();
 
     return () => {
-      if (subscription) supabase.removeChannel(subscription)
-    }
-  }, [router])
+        supabase.removeChannel(channel);
+    };
+  }, [userId]);
 
   const handleConversationClick = (conversation) => {
     const otherUserId = conversation.from_user_id === currentUser.id 
