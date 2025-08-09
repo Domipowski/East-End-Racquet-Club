@@ -297,9 +297,10 @@ export default function ChatPage() {
 
         {/* Message Input */}
         <div className="bg-white border-t border-gray-200 p-4">
-          <form onSubmit={sendMessage} className="flex items-end gap-3">
+          <form onSubmit={sendMessage} className="flex items-center gap-3">
             <div className="flex-1">
               <textarea
+                id="textfield"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
@@ -317,10 +318,10 @@ export default function ChatPage() {
             <button
               type="submit"
               disabled={!newMessage.trim() || sending}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 disabled:from-gray-300 disabled:to-gray-300 text-white p-3 rounded-full transition-colors disabled:cursor-not-allowed"
+              className="mb-2 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 disabled:from-gray-300 disabled:to-gray-300 text-white p-3 rounded-full transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
               {sending ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
               ) : (
                 <PaperAirplaneIcon className="w-5 h-5" />
               )}
