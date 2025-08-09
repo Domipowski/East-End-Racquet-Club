@@ -90,11 +90,14 @@ export default function MessagesPage() {
   const router = useRouter()
 
   useEffect(() => {
+    let subscription
+
     const fetchData = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         if (!session) {
-          router.push('/auth')
+          setLoading(false)
+          router.replace('/auth')
           return
         }
 
@@ -107,35 +110,49 @@ export default function MessagesPage() {
 
         setCurrentUser(currentUserData)
 
-        // Fetch conversations - get latest message from each conversation
+        // Fetch conversations
         const { data: messagesData, error } = await supabase
           .from('messages')
           .select(`
-            *,
-            from_user:profiles!messages_from_user_id_fkey(*),
-            to_user:profiles!messages_to_user_id_fkey(*)
+            id, from_user_id, to_user_id, content, read, created_at,
+            from_user:profiles!messages_from_user_id_fkey(id,name,town,skill,sport),
+            to_user:profiles!messages_to_user_id_fkey(id,name,town,skill,sport)
           `)
           .or(`from_user_id.eq.${session.user.id},to_user_id.eq.${session.user.id}`)
           .order('created_at', { ascending: false })
+          .limit(100)
 
         if (error) throw error
 
-        // Group messages by conversation and keep only the latest message
+        // Group by conversation
         const conversationsMap = new Map()
-        
         messagesData?.forEach(message => {
-          const otherUserId = message.from_user_id === session.user.id 
-            ? message.to_user_id 
+          const otherUserId = message.from_user_id === session.user.id
+            ? message.to_user_id
             : message.from_user_id
-          
-          const conversationKey = [session.user.id, otherUserId].sort().join('-')
-          
-          if (!conversationsMap.has(conversationKey)) {
-            conversationsMap.set(conversationKey, message)
+          const key = [session.user.id, otherUserId].sort().join('-')
+          if (!conversationsMap.has(key)) {
+            conversationsMap.set(key, message)
           }
         })
 
         setConversations(Array.from(conversationsMap.values()))
+
+        // Subscribe to new messages AFTER session is available
+        subscription = supabase
+          .channel(`messages-${session.user.id}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'messages',
+              filter: `or(from_user_id=eq.${session.user.id},to_user_id=eq.${session.user.id})`
+            },
+            () => fetchData()
+          )
+          .subscribe()
+
       } catch (error) {
         console.error('Error fetching conversations:', error)
       } finally {
@@ -145,23 +162,8 @@ export default function MessagesPage() {
 
     fetchData()
 
-    // Subscribe to new messages
-    const subscription = supabase
-      .channel('messages')
-      .on('postgres_changes', 
-        { 
-          event: '*', 
-          schema: 'public', 
-          table: 'messages' 
-        }, 
-        () => {
-          fetchData() // Refetch on any message change
-        }
-      )
-      .subscribe()
-
     return () => {
-      subscription.unsubscribe()
+      if (subscription) supabase.removeChannel(subscription)
     }
   }, [router])
 
@@ -198,7 +200,7 @@ export default function MessagesPage() {
           {/* Page Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
-              <ChatBubbleLeftRightSolid className="w-10 h-10 text-green-500" />
+              <ChatBubbleLeftRightSolid className="w-10 h-10 text-green-400" />
               Messages
             </h1>
             <p className="text-lg text-gray-600">Stay connected with your playing partners</p>
