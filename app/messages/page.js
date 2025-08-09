@@ -42,15 +42,6 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
       className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 p-4 border border-gray-200 cursor-pointer hover:border-green-200"
     >
       <div className="flex items-center gap-4">
-        {/* Avatar */}
-        <div className="relative">
-          {isUnread && (
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-              <ExclamationCircleIcon className="w-3 h-3 text-white" />
-            </div>
-          )}
-        </div>
-
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
@@ -65,11 +56,12 @@ const ConversationCard = ({ conversation, currentUserId, onClick }) => {
               {formatTime(conversation.created_at)}
               {': '}
               {lastMessage}
+
+              {isUnread 
+                ? <span className="w-4 h-4 font-bold text-red-500 flex-shrink-0 ml-2">!</span>
+                : <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 ml-2 inline-block" />
+              }
             </span>
-            
-            {!isUnread && conversation.from_user_id === currentUserId && (
-              <CheckIcon className="w-4 h-4 text-green-500 flex-shrink-0 ml-2" />
-            )}
           </div>
 
           {/* User info */}
