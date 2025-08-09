@@ -370,7 +370,7 @@ export default function SignIn() {
                 {/* Back Button */}
                 <div className="mt-4 text-center">
                   <button
-                    onClick={goBack}
+                    onClick={() => router.back()}
                     className="text-sm text-gray-600 hover:text-gray-800 underline cursor-pointer"
                   >
                     ← Back to Sign Up
