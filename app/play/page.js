@@ -14,8 +14,6 @@ import {
   AdjustmentsHorizontalIcon
 } from '@heroicons/react/24/outline'
 
-// FIXME: Check and test cards and lists for users once another is created 
-
 // Filter Panel Component
 const FilterPanel = ({ 
   filters, 
@@ -232,6 +230,8 @@ const UserCard = ({ user, viewMode }) => {
     }
   }
 
+  const router = useRouter(); 
+
   if (viewMode === 'list') {
     return (
       <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-4 border border-gray-200">
@@ -255,7 +255,10 @@ const UserCard = ({ user, viewMode }) => {
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-sm font-medium text-gray-700">{getSportDisplay(user.sport)}</span>
-                <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer">
+                <button 
+                  onClick={() => router.push(`/messages/${user.id}`)}
+                  className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer"
+                >
                   Message
                 </button>
               </div>
@@ -305,7 +308,10 @@ const UserCard = ({ user, viewMode }) => {
         </div>
 
         {/* Connect Button */}
-        <button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-2 rounded-lg font-semibold transition-colors cursor-pointer">
+        <button 
+          onClick={() => router.push(`/messages/${user.id}`)}
+          className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-2 rounded-lg font-semibold transition-colors cursor-pointer"
+        >  
           Message
         </button>
       </div>

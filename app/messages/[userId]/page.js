@@ -105,6 +105,11 @@ export default function ChatPage() {
   const router = useRouter()
   const params = useParams()
   const otherUserId = params.userId
+  const currentUserId = currentUser ? currentUser.id : null; // stable primitive
+
+  const handleBack = () => {
+    router.push('/messages'); // make sure you have a /messages index page
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -169,42 +174,55 @@ export default function ChatPage() {
     if (otherUserId) {
       fetchData()
     }
+  }, [otherUserId])
 
-    // Subscribe to new messages
-    const subscription = supabase
-      .channel(`chat-${otherUserId}`)
-      .on('postgres_changes', 
-        { 
-          event: 'INSERT', 
-          schema: 'public', 
-          table: 'messages',
-          filter: `or(and(from_user_id.eq.${currentUser?.id},to_user_id.eq.${otherUserId}),and(from_user_id.eq.${otherUserId},to_user_id.eq.${currentUser?.id}))`
-        }, 
-        (payload) => {
-          setMessages(prev => [...prev, payload.new])
-          // Mark as read if it's from the other user
-          if (payload.new.from_user_id === otherUserId) {
-            supabase
-              .from('messages')
-              .update({ read: true })
-              .eq('id', payload.new.id)
-          }
-        }
+  useEffect(() => {
+    if (!currentUserId || !otherUserId) return;
+
+    const handleInsert = (payload) => {
+      const m = payload.new;
+
+      const isThisThread =
+        (m.from_user_id === currentUserId && m.to_user_id === otherUserId) ||
+        (m.from_user_id === otherUserId && m.to_user_id === currentUserId);
+
+      if (!isThisThread) return;
+
+      setMessages(prev => [...prev, m]);
+
+      // mark as read if the other user sent it
+      if (m.from_user_id === otherUserId) {
+        supabase.from('messages').update({ read: true }).eq('id', m.id);
+      }
+    };
+
+    // two simple subscriptions — each watches one column
+    const channel = supabase
+      .channel(`chat-${currentUserId}-${otherUserId}`)
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `from_user_id=eq.${currentUserId}` },
+        handleInsert
       )
-      .subscribe()
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_user_id=eq.${currentUserId}` },
+        handleInsert
+      )
+      .subscribe();
 
     return () => {
-      subscription.unsubscribe()
-    }
-  }, [otherUserId, currentUser?.id, router])
+      supabase.removeChannel(channel);
+    };
+  }, [currentUserId, otherUserId]);
 
   const sendMessage = async (e) => {
-    e.preventDefault()
-    if (!newMessage.trim() || sending) return
+    e.preventDefault();
+    if (!newMessage.trim() || sending) return;
 
-    setSending(true)
+    setSending(true);
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('messages')
         .insert({
           from_user_id: currentUser.id,
@@ -212,19 +230,20 @@ export default function ChatPage() {
           content: newMessage.trim(),
           read: false
         })
+        .select()
+        .single(); // get the inserted row back
 
-      if (error) throw error
-      setNewMessage('')
+      if (error) throw error;
+
+      // show it right away
+      setMessages(prev => [...prev, data]);
+      setNewMessage('');
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error('Error sending message:', error);
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
-
-  const handleBack = () => {
-    router.push('/messages')
-  }
+  };
 
   if (loading) {
     return (
